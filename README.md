@@ -2,19 +2,25 @@
 
 This repo can be used to install IBM Cloud Pak 4 Integration capabilities and sample applications. CP4I documentation: https://www.ibm.com/docs/en/cloud-paks/cp-integration
 
-## Repository Structure
+<details>
+
+<summary> Repository Structure </summary>
 
 ![Repository structure](./media/CP4I-GitOps-Repo-Setup.png)
 
+</details>
+
 ## Instructions
 
-You should have an existing OpenShift cluster available. 
+You should have an existing OpenShift cluster available.
 
-Make sure that the default storage class is block storage. 
+Make sure that the default storage class is block storage.
 
 Check that you don't have a cert-manager from RedHat or Jetstack installed. If you do, follow these instructions: https://www.ibm.com/docs/en/cloud-paks/cp-integration/2022.4?topic=eim-problem-when-you-install-two-different-cert-managers
 
-### Fork this repo and adapt it for your environment
+<details>
+
+<summary> Fork this repo and adapt it for your environment</summary>
 
 First, fork this repo. Now update the following files that refer to your repo url:
 
@@ -25,8 +31,11 @@ Now chose which operators, operands and type of environment:
 
 - [all-operators](argocd/operators/all-operators.yaml) By default, CP4I operators are installed into the openshift-operators namespace. If you want to change this, you can update the setting per operator. Note that the App Connect sample application relies on a cluster-scoped operator, so if you change this you'll have to install the operator in the namespace used by the sample application also.
 - [all-operands.yaml](argocd/operands/all-operands.yaml) Here, also update with your environment, using ODF storage (odf), IBM Classic infrastructure (ibm-classic), IBM VPC infrastructure (ibm-vpc), Azure (azure or azure-nfs) and AWS (aws) are valid values
+</details>
 
-### Install the OpenShift GitOps operator
+<details>
+
+<summary> Install the OpenShift GitOps operator </summary>
 
 From OperatorHub, find the OpenShift GitOps operator and install it with the recommended defaults. For details, see https://docs.openshift.com/container-platform/4.12/cicd/gitops/installing-openshift-gitops.html
 
@@ -34,7 +43,11 @@ From OperatorHub, find the OpenShift GitOps operator and install it with the rec
 
 Add a webhook to https://your-gitops-server.com/api/webhook for the push event. For details, see https://argo-cd.readthedocs.io/en/stable/operator-manual/webhook/
 
-### Add the bootstrap ArgoCD application to install operators
+</details>
+
+<details>
+
+<summary> Add the bootstrap ArgoCD application to install operators</summary>
 
 In the OpenShift Console, click the "plus" icon and paste the contents of [bootstrap.yaml](./argocd/bootstrap.yaml) to create the bootstrap ArgoCD application. This application will find the [kustomization.yaml](./argocd/kustomization.yaml) file which points to the [common.yaml](./argocd/common.yaml) application and an ArgoCD ApplicationSet [all-operators.yaml](./argocd/operators/all-operators.yaml)
 
@@ -44,9 +57,14 @@ The all-operators.yaml ApplicationSet generates ArgoCD applications for all oper
 
 After applying the bootstrap file, the operators will be installed. By default, these are installed in the openshift-operators namespace. You can check the status in the OpenShift Console under Operators / Installed Operators.
 
-### Add the IBM entitlement key to access the container registry
+</details>
+<details>
+
+<summary>  Add the IBM entitlement key to access the container registry </summary>
 
 Create an image pull secret in the 'cp4i' namespace with the name ibm-entitlement-key, address cp.icr.io, username cp and your entitlement key as password.
+
+</details>
 
 ### Install operands / capabilities
 
