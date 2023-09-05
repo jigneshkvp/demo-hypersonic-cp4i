@@ -4,69 +4,69 @@ metadata:
   name: cp4i-operands
 spec:
   generators:
-  - list:
-      elements:
-        # - name: apiconnect
-        #   namespace: cp4i
-        #   sync-wave: "300"
-        - name: mq
-          namespace: cp4i
-          sync-wave: "300"
-        - name: appconnect
-          namespace: cp4i
-          sync-wave: "300"
-        - name: eventstreams
-          namespace: cp4i
-          sync-wave: "300"
-        - name: platformnavigator
-          namespace: cp4i
-          sync-wave: "200"
-        - name: openshift-logging
-          namespace: openshift-logging
-          sync-wave: "200"
-        - name: openshift-monitoring
-          namespace: openshift-monitoring
-          sync-wave: "200"
-        - name: reloader
-          namespace: cp4i
-          sync-wave: "200"
-        - name: flink
-          namespace: cp4i
-          sync-wave: "200"
-        - name: eventprocessing
-          namespace: cp4i
-          sync-wave: "200"
-        - name: eventendpointmgmt
-          namespace: cp4i
-          sync-wave: "200"
-        #- name: instana-agent
-        #  namespace: instana-agent
-        #  sync-wave: "200"
-        # - name: clusterresourceoverride
-        #   namespace: cp4i
-        #   sync-wave: "200"
-        # - name: assetrepository
-        #  namespace: cp4i
-        #  sync-wave: "200"
+    - list:
+        elements:
+          # - name: apiconnect
+          #   namespace: cp4i
+          #   sync-wave: "300"
+          - name: mq
+            namespace: cp4i
+            sync-wave: "300"
+          - name: appconnect
+            namespace: cp4i
+            sync-wave: "300"
+          # - name: eventstreams
+          #   namespace: cp4i
+          #   sync-wave: "300"
+          # - name: platformnavigator
+          #   namespace: cp4i
+          #   sync-wave: "200"
+          # - name: openshift-logging
+          #   namespace: openshift-logging
+          #   sync-wave: "200"
+          # - name: openshift-monitoring
+          #   namespace: openshift-monitoring
+          #   sync-wave: "200"
+          # - name: reloader
+          #   namespace: cp4i
+          #   sync-wave: "200"
+          # - name: flink
+          #   namespace: cp4i
+          #   sync-wave: "200"
+          # - name: eventprocessing
+          #   namespace: cp4i
+          #   sync-wave: "200"
+          # - name: eventendpointmgmt
+          #   namespace: cp4i
+          #   sync-wave: "200"
+          #- name: instana-agent
+          #  namespace: instana-agent
+          #  sync-wave: "200"
+          # - name: clusterresourceoverride
+          #   namespace: cp4i
+          #   sync-wave: "200"
+          # - name: assetrepository
+          #  namespace: cp4i
+          #  sync-wave: "200"
   template:
     metadata:
-      name: '{{name}}'
+      name: "{{name}}"
       labels:
         group: applications
       annotations:
-        argocd.argoproj.io/sync-wave: '{{sync-wave}}'
+        argocd.argoproj.io/sync-wave: "{{sync-wave}}"
     spec:
       project: cp4i-operands
       source:
-        path: 'envs/odf/nonprod/{{name}}/'
+        path: "envs/odf/nonprod/{{name}}/"
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{namespace}}'
+        namespace: "{{namespace}}"
       syncPolicy:
         automated:
           selfHeal: true
       ignoreDifferences:
-      - group: appconnect.ibm.com
-        kind: Configuration
-        jsonPointers:
-          - /spec/data
+        - group: appconnect.ibm.com
+          kind: Configuration
+          jsonPointers:
+            - /spec/data
